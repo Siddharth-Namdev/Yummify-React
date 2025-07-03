@@ -3,60 +3,54 @@ import { useDispatch } from "react-redux";
 import { CDN_URL } from "../utils/constants";
 
 const ItemList = ({ items }) => {
-  //console.log(items);
-  if (!items || items.length === 0) return <p>No items in cart</p>;
-
   const dispatch = useDispatch();
-  const handelAddItem = (item) => {
+
+  const handleAddItem = (item) => {
     dispatch(addItems(item));
   };
 
+  if (!items || items.length === 0) return <p>No items in cart</p>;
+
   return (
-    <div>
-      {" "}
-      {/* {items.map((item) => (
-        <div key={item.card.info.id}> 
-       <span>{item?.card?.info?.name} </span> 
-       <span>{item?.card?.info?.price}/100</span>
-       <div>{item?.card?.info?.description}</div>
-        </div>
-      ))} */}
+    <div className="space-y-6">
       {items.map((item) => (
         <div
           key={item.card.info.id}
-          className="p-4 mb-6 border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 bg-white flex flex-row-reverse gap-4"
+          className="flex items-center gap-5 p-5 bg-gradient-to-br from-[#fff7ec] via-[#ffe5dc] to-[#fce4ec] 
+          rounded-2xl shadow-md hover:shadow-xl transition duration-300 border border-orange-100"
         >
-          {/* Image on Right */}
-          <div className="absolute">
-            <button
-              className="m-auto bg-black text-white border cursor-pointer"
-              onClick={() => handelAddItem(item)}
-            >
-              {" "}
-              ADD +
-            </button>
-          </div>
+          {/* Image */}
           <img
             src={CDN_URL + item?.card?.info?.imageId}
             alt={item?.card?.info?.name}
-            className="w-24 h-24 rounded-lg object-cover"
+            className="w-24 h-24 rounded-xl object-cover shadow-sm"
           />
 
-          {/* Info on Left */}
-          <div className="flex flex-col justify-between flex-1">
-            <div className="flex justify-between items-start">
-              <span className="text-lg font-semibold text-gray-800">
+          {/* Info Section */}
+          <div className="flex-1 flex flex-col justify-between">
+            <div className="flex justify-between items-center">
+              <h3 className="text-lg font-bold text-orange-600">
                 {item?.card?.info?.name}
-              </span>
-              <span className="text-sm text-green-700 font-medium whitespace-nowrap">
+              </h3>
+              <span className="text-md text-green-700 font-semibold">
                 ₹
                 {(item?.card?.info?.price || item?.card?.info?.defaultPrice) /
                   100}
               </span>
             </div>
-            <div className="text-sm text-gray-600 mt-2">
+            <p className="text-sm text-gray-700 mt-1">
               {item?.card?.info?.description}
-            </div>
+            </p>
+          </div>
+
+          {/* Add Button */}
+          <div>
+            <button
+              onClick={() => handleAddItem(item)}
+              className="bg-orange-500 text-white px-4 py-1.5 rounded-md hover:bg-orange-600 transition font-semibold shadow"
+            >
+              ADD +
+            </button>
           </div>
         </div>
       ))}

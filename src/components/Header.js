@@ -1,48 +1,87 @@
 import { LOGO_URL } from "../utils/constants";
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router"; // FIXED
 import useOnlineStatus from "../utils/useOnlineStatus";
 import { useSelector } from "react-redux";
 
 const Header = () => {
   const [loginBtn, setLoginBtn] = useState("Login");
-
   const onlineStatus = useOnlineStatus();
-
-  //subscribibg to the store using a Selector
   const cartItems = useSelector((store) => store.cart.items);
 
   return (
-    <div className="flex justify-between bg-indigo-200">
-      <div className="w-35">
-        <img alt="logo-image" src={LOGO_URL} />
+    <header className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-[#fff7ec] via-[#ffe5dc] to-[#fce4ec] shadow-md">
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-3">
+        {/* Logo + Brand Name */}
+        <div className="flex items-center gap-3">
+          <img
+            src={LOGO_URL}
+            alt="Yummyfy Logo"
+            className="w-14 h-14 rounded-full shadow-md"
+          />
+          <div className="flex flex-col">
+            <span className="text-xl font-extrabold text-orange-500">
+              Yummyfy
+            </span>
+            <span className="text-sm text-gray-500 italic">
+              Food that makes you happy
+            </span>
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <nav>
+          <ul className="flex items-center space-x-6 text-base font-medium text-gray-700">
+            <li className="hover:text-orange-500 transition">
+              Online Status: {onlineStatus ? "🟢" : "🔴"}
+            </li>
+            <li>
+              <Link to="/" className="hover:text-orange-500 transition">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/about" className="hover:text-orange-500 transition">
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" className="hover:text-orange-500 transition">
+                Contact
+              </Link>
+            </li>
+
+            {/* Cart Icon */}
+            <li className="relative">
+              <Link
+                to="/cart"
+                className="flex items-center hover:text-orange-500 transition"
+              >
+                🛒
+                <span className="ml-1">Cart</span>
+                {cartItems.length > 0 && (
+                  <span className="absolute -top-2 -right-3 bg-orange-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow">
+                    {cartItems.length}
+                  </span>
+                )}
+              </Link>
+            </li>
+
+            {/* Login Button */}
+            <li>
+              <button
+                onClick={() =>
+                  setLoginBtn((prev) => (prev === "Login" ? "Logout" : "Login"))
+                }
+                className="bg-orange-400 text-white px-4 py-1.5 rounded-md hover:bg-orange-500 transition"
+              >
+                {loginBtn}
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
-      <div className="flex items-center">
-        <ul className="flex m-7">
-          <li className="m-4">Online Status : {onlineStatus ? "🟢" : "🔴"}</li>
-          <li className="m-4">
-            <Link to="/">Home</Link>
-          </li>
-          <li className="m-4">
-            <Link to="/about">About Us</Link>
-          </li>
-          <li className="m-4">
-            <Link to="/contact" >Contact Us</Link>
-          </li>
-          <Link  className="m-5" to="/cart">Cart - {cartItems.length} items</Link>
-          <button
-            className="m-4"
-            onClick={() => {
-              loginBtn === "Login" // ternary Operator For if Login then convert in Logout and viseverse
-                ? setLoginBtn("Logout")
-                : setLoginBtn("Login");
-            }}
-          >
-            {loginBtn}
-          </button>
-        </ul>
-      </div>
-    </div>
+    </header>
   );
 };
 

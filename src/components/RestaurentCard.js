@@ -1,26 +1,32 @@
 import { CDN_URL } from "../utils/constants";
 
-const RestaurentCard = (props) => {
-  const { resData } = props;
-
+const RestaurentCard = ({ resData }) => {
   const { cloudinaryImageId, name, cuisines, costForTwo, avgRating } =
     resData?.info;
-  return (
-    <div
-      className="p-5 m-2 w-[300px] h-[400px] bg-white rounded-xl shadow-md overflow-hidden flex flex-col hover:scale-105 transition-transform duration-200 hover:bg-blue-100"
-      // style={{ backgroundColor: "#f0f0f0" }}
-    >
-      <img
-        className="w-full h-50 object-cover rounded-2xl "
-        src={CDN_URL + resData.info.cloudinaryImageId}
-      />
 
-      <div className="p-4 flex flex-col justify-between flex-grow">
-        <h4 className="font-bold text-lg mb-1">{name}</h4>
-        <p className="text-sm text-gray-600">{cuisines.join(", ")}</p>
-        <div className="mt-auto">
-          <p className="text-sm text-gray-800 font-semibold">{avgRating} ⭐</p>
-          <p className="text-sm text-gray-700">{costForTwo}</p>
+  return (
+    <div className="w-[280px] h-[370px] bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl hover:scale-105 transition duration-300">
+      <div className="relative">
+        <img
+          src={CDN_URL + cloudinaryImageId}
+          alt={name}
+          className="w-full h-48 object-cover"
+        />
+      </div>
+
+      <div className="p-4 flex flex-col gap-2 flex-grow">
+        <h4 className="text-lg font-bold text-pink-700 truncate">{name}</h4>
+        <p className="text-sm text-gray-600 line-clamp-2">
+          {cuisines.join(", ")}
+        </p>
+
+        <div className="flex justify-between items-center mt-2">
+          <span className="text-sm font-semibold text-green-700 bg-green-100 px-2 py-1 rounded-full">
+            ⭐ {avgRating}
+          </span>
+          <span className="text-sm font-medium text-orange-700 bg-orange-100 px-2 py-1 rounded-full">
+            {costForTwo}
+          </span>
         </div>
       </div>
     </div>
