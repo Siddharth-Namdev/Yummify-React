@@ -18,6 +18,10 @@ const Body = () => {
 
   const fetchData = async () => {
     const data = await fetch(RESTAURANT_DATA);
+
+    if (!data.ok) {
+      throw new Error(`Error from API: ${response.status}`);
+    }
     const json = await data.json();
     const cards = json?.data?.cards || [];
 
